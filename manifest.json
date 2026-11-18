@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "소싱 이미지검색 (1688 + 타오바오 + 알리)",
+  "short_name": "소싱 이미지검색",
+  "version": "1.1.1",
+  "description": "이미지를 붙여넣으면 1688, 타오바오, 알리익스프레스 이미지검색을 동시에 돌리고 결과를 한 화면에서 비교합니다.",
+  "action": {
+    "default_title": "1688 + 타오바오 + 알리 이미지검색 열기",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "unlimitedStorage", "tabs", "contextMenus"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.1688.com/*"],
+      "js": ["content/1688-main.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://www.1688.com/*",
+        "https://air.1688.com/kapp/1688-search/pc-image-search/*"
+      ],
+      "js": ["content/common.js", "content/1688.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://s.taobao.com/*"],
+      "js": ["content/taobao-main.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://s.taobao.com/*"],
+      "js": ["content/common.js", "content/taobao.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://*.aliexpress.com/*"],
+      "js": ["content/aliexpress-main.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://*.aliexpress.com/*"],
+      "js": ["content/common.js", "content/aliexpress.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
+
